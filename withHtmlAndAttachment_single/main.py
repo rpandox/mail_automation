@@ -43,8 +43,7 @@ def send_html_email(recipient_email,subject,html_content,attachments=[]):
                 part.set_payload(file.read())
                 encoders.encode_base64(part)  # Encode the file in base64
                 # Add header for the attachment
-                # part.add_header('Content-Disposition', f'attachment; filename={os.path.basename(file_path)}')
-                part.add_header('Content-Disposition', f'attachment; filename={"test_file"}')
+                part.add_header('Content-Disposition', f'attachment; filename={os.path.basename(file_path)}')
                 msg.attach(part)  # Attach the file to the message
         except Exception as e:
             print(f"Failed to attach {file_path}: {e}")

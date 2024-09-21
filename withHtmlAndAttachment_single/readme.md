@@ -1,10 +1,10 @@
 # Email Bulk Sender
 
-This Python script sends personalized HTML emails in bulk using a contact list from an Excel file. It supports attachments and uses the Jinja2 templating engine for dynamic content.
+This Python script sends personalized HTML email. It supports attachments and uses the Jinja2 templating engine for dynamic content.
 
 ## Features
 
-- Send personalized bulk emails
+- Send emails
 - HTML content rendering with Jinja2
 - File attachments
 - Secure email credentials management
