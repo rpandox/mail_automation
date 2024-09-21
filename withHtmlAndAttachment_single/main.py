@@ -22,9 +22,6 @@ def load_html_email_format(file_path,**kwargs):
     # Render the template with provided kwargs
     return template.render(**kwargs)
 
-def load_excel_file(file_path):
-    return pd.read_excel(file_path)
-
 def send_html_email(recipient_email,subject,html_content,attachments=[]):
     
     #email message
@@ -46,7 +43,8 @@ def send_html_email(recipient_email,subject,html_content,attachments=[]):
                 part.set_payload(file.read())
                 encoders.encode_base64(part)  # Encode the file in base64
                 # Add header for the attachment
-                part.add_header('Content-Disposition', f'attachment; filename={os.path.basename(file_path)}')
+                # part.add_header('Content-Disposition', f'attachment; filename={os.path.basename(file_path)}')
+                part.add_header('Content-Disposition', f'attachment; filename={"test_file"}')
                 msg.attach(part)  # Attach the file to the message
         except Exception as e:
             print(f"Failed to attach {file_path}: {e}")
@@ -61,32 +59,30 @@ def send_html_email(recipient_email,subject,html_content,attachments=[]):
     except Exception as e:
         print(f"Failed to send email: {e}")
 
-def send_bulk_emails(excel_file, html_file, attachments = []):
+def send_email(recipient_name,recipient_email,html_file, attachments = []):
     
-    # Load the contacts
-    contacts = load_excel_file(excel_file)
-
-    # Loop through each contact in the Excel file
-    for index, row in contacts.iterrows():
+    # Get the email and name of the contact
+    recipient_name = recipient_name
+    email = recipient_email
         
-        # Get the email and name of the contact
-        recipient_name = row['Community Name ']
-        email = row['Email']
-        
-        # Load the HTML content from the file
-        html_content = load_html_email_format(html_file,name = recipient_name)
-        
-        send_html_email(recipient_email=email, subject="Welcome to Learning Utsav 2024", html_content=html_content)
-
+    # Load the HTML content from the file
+    html_content = load_html_email_format(html_file,name = recipient_name)
     
+    send_html_email(recipient_email=email, subject="Welcome to Learning Utsav 2024", html_content=html_content)
+
 
 
 # MAIN PROGRAM
 
 if __name__ == "__main__":    
+    
+    #TO
+    recipient_name = "Roshan"
+    recipient_email = "kan078bct067@kec.edu.np"
+    
     # CONTENT
     html_file = "./email_content.html"
     attachments = ['/Users/roshanpandey/Desktop/CLUB/Learning Utsav/Mail format/Community/index.html']
-    excel_file = './Bulk.xlsx'
+    
     # Send the email
-    send_bulk_emails(excel_file=excel_file,html_file=html_file,attachments=attachments)
+    send_email(recipient_name,recipient_email,html_file=html_file,attachments=attachments)
